@@ -1,0 +1,24 @@
+{
+  "name": "habit-tracker",
+  "version": "1.0.0",
+  "description": "Habit building in its essential steps: choose a habit, actually remember to do it, and track your development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonuabi/Habit-Tracker.git"
+  },
+  "author": "Abhishek Verma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nonuabi/Habit-Tracker/issues"
+  },
+  "homepage": "https://github.com/nonuabi/Habit-Tracker#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  }
+}
