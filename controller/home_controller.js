@@ -54,13 +54,40 @@ module.exports.newHabit = function (req, res) {
         .catch((err) => console.log(err));
     }
   });
-  // const { content } = req.body;
-  // Habit.create({ content: content }, function (error, habit) {
-  //   if (error) {
-  //     console.log(`Error in creating new habit ${error}`);
-  //     return;
-  //   }
-  //   console.log(`new habit is created :: ${habit}`);
-  //   return res.redirect("back");
-  // });
+};
+
+module.exports.statesChange = function (req, res) {
+  var d = req.query.date;
+  var id = req.query.id;
+  Habit.findById(id, (err, habit) => {
+    if (err) {
+      console.log("Error updating status!");
+    } else {
+      let dates = habit.dates;
+      let found = false;
+      dates.find(function (item, index) {
+        if (item.date === d) {
+          if (item.complete === "yes") {
+            item.complete = "no";
+          } else if (item.complete === "no") {
+            item.complete = "none";
+          } else if (item.complete === "none") {
+            item.complete = "yes";
+          }
+          found = true;
+        }
+      });
+      if (!found) {
+        dates.push({ date: d, complete: "yes" });
+      }
+      habit.dates = dates;
+      habit
+        .save()
+        .then((habit) => {
+          console.log(habit);
+          res.redirect("back");
+        })
+        .catch((err) => console.log(err));
+    }
+  });
 };
