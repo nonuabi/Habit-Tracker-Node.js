@@ -5,9 +5,14 @@
   <body>
     <header><p><%= title%></p></header>
     <div>
-      <form action="">
-        <input type="text" />
-        <input type="submit" value="Add" />
+      <form action="/new-habit" method="POST">
+        <input
+          type="text"
+          name="content"
+          placeholder="New Habit Name.."
+          required
+        />
+        <input type="submit" value="Add Habit" />
       </form>
     </div>
     <footer></footer>
