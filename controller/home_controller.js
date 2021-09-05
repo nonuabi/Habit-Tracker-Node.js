@@ -1,24 +1,51 @@
+const { response } = require("express");
 const Habit = require("../models/habit");
+const User = require("../models/user");
 module.exports.home = function (req, res) {
-  Habit.find({})
-    .sort("-createdAt")
+  let user_details = null;
+  User.find({})
     .then((response) => {
-      let days = [];
-      days.push(getDate(0));
-      days.push(getDate(1));
-      days.push(getDate(2));
-      days.push(getDate(3));
-      days.push(getDate(4));
-      days.push(getDate(5));
-      days.push(getDate(6));
-      console.log("days array  :: ", days);
-      console.log("habits :: ", response);
+      if (response.length > 0) {
+        console.log("user response :: ", response);
+        user_details = response;
+      } else {
+        const new_user = new User({ Name: "John", View: "daily" });
+        new_user
+          .save()
+          .then((res) => {
+            console.log("After saving new User :: ", res);
+            user_details = res;
+          })
+          .catch((err) => {
+            console.log("after saving error :: ", err);
+          });
+      }
 
-      return res.render("home", { response, days });
+      if (user_details) {
+        Habit.find({})
+          .sort("-createdAt")
+          .then((response) => {
+            let days = [];
+            days.push(getDate(0));
+            days.push(getDate(1));
+            days.push(getDate(2));
+            days.push(getDate(3));
+            days.push(getDate(4));
+            days.push(getDate(5));
+            days.push(getDate(6));
+            console.log("days array  :: ", days);
+            console.log("habits :: ", response);
+
+            return res.render("home", { response, days });
+          })
+          .catch((error) => {
+            console.log(error);
+            return;
+          });
+      }
     })
     .catch((error) => {
-      console.log(error);
-      return;
+      console.log("user error :: ", error);
     });
 };
 
