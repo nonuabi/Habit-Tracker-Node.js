@@ -18,11 +18,21 @@
     <div>
       <%response.forEach((item)=>{%>
       <p><%= item.content%></p>
-      <%days.forEach((day)=>{%>
-      <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
-        >Update State
-      </a>
+      <%days.forEach((day)=>{ let found = false, status = "";
+      item.dates.find(function (res){ if(res.date === day.date){ found = true;
+      status = res.complete; } }) %>
+
+      <hr />
       <p><%= day.date%></p>
+      <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
+        ><%if(found && status === "yes"){%>
+        <p>yes</p>
+        <%} else if(found && status==="no") {%>
+        <p>no</p>
+        <%}else {%>
+        <p>none</p>
+        <%}%>
+      </a>
       <p><%= day.day%></p>
       <%})%> <%})%>
     </div>

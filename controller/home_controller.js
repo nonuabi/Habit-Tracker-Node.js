@@ -12,6 +12,7 @@ module.exports.home = function (req, res) {
       days.push(getDate(5));
       days.push(getDate(6));
       console.log("days array  :: ", days);
+      console.log("habits :: ", response);
       return res.render("home", { response, days });
     })
     .catch((error) => {
@@ -29,7 +30,6 @@ function getDate(n) {
     .reverse()
     .join("-");
   let day = "";
-  console.log("date :: ", date.getDay(), "   new Date :: ", new_date);
   switch (date.getDay()) {
     case 0:
       day = "Sun";
@@ -116,7 +116,8 @@ module.exports.statesChange = function (req, res) {
     } else {
       let dates = habit.dates;
       let found = false;
-      dates.find(function (item, index) {
+      dates.find(function (item) {
+        console.log("found click date :: ", item);
         if (item.date === d) {
           if (item.complete === "yes") {
             item.complete = "no";
@@ -135,7 +136,7 @@ module.exports.statesChange = function (req, res) {
       habit
         .save()
         .then((habit) => {
-          console.log(habit);
+          console.log("updated habit ", habit);
           res.redirect("back");
         })
         .catch((err) => console.log(err));
