@@ -1,9 +1,60 @@
 const Habit = require("../models/habit");
 module.exports.home = function (req, res) {
-  return res.render("home", {
-    title: "Home",
-  });
+  Habit.find({})
+    .sort("-createdAt")
+    .then((response) => {
+      let days = [];
+      days.push(getDate(0));
+      days.push(getDate(1));
+      days.push(getDate(2));
+      days.push(getDate(3));
+      days.push(getDate(4));
+      days.push(getDate(5));
+      days.push(getDate(6));
+      console.log("days array  :: ", days);
+      return res.render("home", { response, days });
+    })
+    .catch((error) => {
+      console.log(error);
+      return;
+    });
 };
+
+function getDate(n) {
+  let date = new Date();
+  date.setDate(date.getDate() + n);
+  let new_date = date
+    .toLocaleDateString("pt-br")
+    .split("/")
+    .reverse()
+    .join("-");
+  let day = "";
+  console.log("date :: ", date.getDay(), "   new Date :: ", new_date);
+  switch (date.getDay()) {
+    case 0:
+      day = "Sun";
+      break;
+    case 1:
+      day = "Mon";
+      break;
+    case 2:
+      day = "Tue";
+      break;
+    case 3:
+      day = "Wed";
+      break;
+    case 4:
+      day = "Thu";
+      break;
+    case 5:
+      day = "Fri";
+      break;
+    case 6:
+      day = "Sat";
+      break;
+  }
+  return { date: new_date, day };
+}
 
 module.exports.newHabit = function (req, res) {
   console.log(req.body);

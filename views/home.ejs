@@ -1,9 +1,9 @@
 <html>
   <head>
-    <title>Habit Tracker <%= title%> Page</title>
+    <title>Habit Tracker Page</title>
   </head>
   <body>
-    <header><p><%= title%></p></header>
+    <header><p>Habit Tracker</p></header>
     <div>
       <form action="/new-habit" method="POST">
         <input
@@ -14,10 +14,17 @@
         />
         <input type="submit" value="Add Habit" />
       </form>
-      
     </div>
     <div>
-      <a href="/update-status/?id="></a>
+      <%response.forEach((item)=>{%>
+      <p><%= item.content%></p>
+      <%days.forEach((day)=>{%>
+      <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
+        >Update State
+      </a>
+      <p><%= day.date%></p>
+      <p><%= day.day%></p>
+      <%})%> <%})%>
     </div>
     <footer></footer>
   </body>
