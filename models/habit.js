@@ -6,6 +6,10 @@ const HabitSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    days: {
+      type: Number,
+      required: true,
+    },
     dates: [
       {
         date: String,

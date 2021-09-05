@@ -13,6 +13,7 @@ module.exports.home = function (req, res) {
       days.push(getDate(6));
       console.log("days array  :: ", days);
       console.log("habits :: ", response);
+
       return res.render("home", { response, days });
     })
     .catch((error) => {
@@ -74,6 +75,7 @@ module.exports.newHabit = function (req, res) {
         } else {
           dates.push({ date: today, complete: "none" });
           habit.dates = dates;
+          habit.days = 0;
           habit
             .save()
             .then((habit) => {
@@ -93,6 +95,7 @@ module.exports.newHabit = function (req, res) {
       const newHabit = new Habit({
         content,
         dates,
+        days: 0,
       });
 
       //---------Save Habit----------//
@@ -100,6 +103,7 @@ module.exports.newHabit = function (req, res) {
         .save()
         .then((habit) => {
           console.log(habit);
+
           res.redirect("back");
         })
         .catch((err) => console.log(err));
@@ -125,12 +129,14 @@ module.exports.statesChange = function (req, res) {
             item.complete = "none";
           } else if (item.complete === "none") {
             item.complete = "yes";
+            habit.days += 1;
           }
           found = true;
         }
       });
       if (!found) {
         dates.push({ date: d, complete: "yes" });
+        habit.days += 1;
       }
       habit.dates = dates;
       habit
@@ -142,4 +148,22 @@ module.exports.statesChange = function (req, res) {
         .catch((err) => console.log(err));
     }
   });
+};
+
+module.exports.removeHabit = function (req, res) {
+  let id = req.query.id;
+  Habit.deleteMany(
+    {
+      _id: id,
+    },
+    (error) => {
+      if (error) {
+        console.log("error in removing habit :: ", error);
+        return;
+      } else {
+        console.log("successfully remove habit from DB");
+        return res.redirect("back");
+      }
+    }
+  );
 };
