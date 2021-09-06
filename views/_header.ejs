@@ -1,8 +1,18 @@
-<header><p>Habit Tracker</p></header>
-
 <div>
-  <form action="/new-habit" method="POST">
-    <input type="text" name="content" placeholder="New Habit Name.." required />
-    <input type="submit" value="Add Habit" />
+  <form action="/new-habit" method="POST" class="new_habit_form">
+    <div class="form-floating mb-3" id="input_container">
+      <input
+        class="form-control"
+        id="floatingInput"
+        type="text"
+        name="content"
+        placeholder="New Habit Name.."
+        required
+      />
+      <label for="floatingInput">New Habit...</label>
+    </div>
+    <div>
+      <input type="submit" class="btn btn-secondary btn-lg" value="Add Habit" />
+    </div>
   </form>
 </div>
