@@ -19,49 +19,51 @@
     </nav>
     <div class="home_container">
       <%- include('./_header.ejs')%>
-      <form action="handle-view" method="POST" class="home_form">
-        <%if(user[0].View === "daily"){%>
-        <button disabled type="submit">Daily</button>
-        <button type="submit">Weely</button>
-        <%}else {%>
-        <button type="submit">Daily</button>
-        <button type="submit" disabled>Weely</button>
-        <p>no</p>
-        <%}%>
-      </form>
-      <div>
-        <p><%=user[0].View%></p>
-        <%habit.forEach((item)=>{%>
-        <br />
-        <p><%= item.content%></p>
-        <%if(user[0].View === "daily"){%>
-        <p>Completed Days :<%= item.days%></p>
-        <% let today_date = new Date(); let created_date = item.createdAt; let
-        difference_B_W_dates = today_date - created_date; let total_days =
-        difference_B_W_dates/ (1000 * 3600 * 24); let total_roundOFF_days =
-        parseInt(total_days, 10); %> <%if(total_roundOFF_days<7) {%>
-        <p>7</p>
-        <%}else {%>
-        <p><%=total_roundOFF_days%></p>
-        <%}%> <%}else {%>
-        <a href="/remove-habit/?id=<%= item._id%>">Remove</a>
-        <% days.forEach((day)=>{ let found = false, status = "";
-        item.dates.find(function (res){ if(res.date === day.date){ found = true;
-        status = res.complete; } }) %>
-
-        <p><%= day.date%></p>
-        <hr />
-        <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
-          ><%if(found && status === "yes"){%>
-          <p>yes</p>
-          <%} else if(found && status==="no") {%>
-          <p>no</p>
+      <div class="display_container">
+        <form action="handle-view" method="POST" class="home_form">
+          <%if(user[0].View === "daily"){%>
+          <button disabled type="submit">Daily</button>
+          <button type="submit">Weely</button>
           <%}else {%>
-          <p>none</p>
+          <button type="submit">Daily</button>
+          <button type="submit" disabled>Weely</button>
+          <p>no</p>
           <%}%>
-        </a>
-        <p><%= day.day%></p>
-        <%})%> <%}%> <%})%>
+        </form>
+        <div>
+          <p><%=user[0].View%></p>
+          <%habit.forEach((item)=>{%>
+          <br />
+          <p><%= item.content%></p>
+          <%if(user[0].View === "daily"){%>
+          <p>Completed Days :<%= item.days%></p>
+          <% let today_date = new Date(); let created_date = item.createdAt; let
+          difference_B_W_dates = today_date - created_date; let total_days =
+          difference_B_W_dates/ (1000 * 3600 * 24); let total_roundOFF_days =
+          parseInt(total_days, 10); %> <%if(total_roundOFF_days<7) {%>
+          <p>7</p>
+          <%}else {%>
+          <p><%=total_roundOFF_days%></p>
+          <%}%> <%}else {%>
+          <a href="/remove-habit/?id=<%= item._id%>">Remove</a>
+          <% days.forEach((day)=>{ let found = false, status = "";
+          item.dates.find(function (res){ if(res.date === day.date){ found =
+          true; status = res.complete; } }) %>
+
+          <p><%= day.date%></p>
+          <hr />
+          <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
+            ><%if(found && status === "yes"){%>
+            <p>yes</p>
+            <%} else if(found && status==="no") {%>
+            <p>no</p>
+            <%}else {%>
+            <p>none</p>
+            <%}%>
+          </a>
+          <p><%= day.day%></p>
+          <%})%> <%}%> <%})%>
+        </div>
       </div>
     </div>
   </body>
