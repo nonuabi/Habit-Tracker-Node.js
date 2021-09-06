@@ -1,52 +1,55 @@
 const { response } = require("express");
 const Habit = require("../models/habit");
 const User = require("../models/user");
+
+module.exports.welcome = function (req, res) {
+  return res.render("login");
+};
+
+module.exports.login = function (req, res) {
+  User.find({ Name: "John" }).then((response) => {
+    console.log("login response :: ", response.length);
+    if (response.length > 0) {
+      console.log("user response :: ", response);
+      return res.redirect("/home");
+    } else {
+      const new_user = new User({ Name: "John", View: "daily" });
+      new_user
+        .save()
+        .then((response) => {
+          console.log("After saving new User :: ", response);
+          return res.redirect("/home");
+        })
+        .catch((err) => {
+          console.log("after saving error :: ", err);
+          return;
+        });
+    }
+  });
+};
 module.exports.home = function (req, res) {
-  let user_details = null;
-  User.find({})
-    .then((response) => {
-      if (response.length > 0) {
-        console.log("user response :: ", response);
-        user_details = response;
+  console.log("Home");
+  User.find({ Name: "John" }).then((user) => {
+    console.log("user ", user);
+    console.log("user view ", user[0].View);
+    Habit.find({}, (err, habit) => {
+      if (err) {
+        console.log("Error while finding habits :: ", err);
       } else {
-        const new_user = new User({ Name: "John", View: "daily" });
-        new_user
-          .save()
-          .then((res) => {
-            console.log("After saving new User :: ", res);
-            user_details = res;
-          })
-          .catch((err) => {
-            console.log("after saving error :: ", err);
-          });
+        let days = [];
+        days.push(getDate(0));
+        days.push(getDate(1));
+        days.push(getDate(2));
+        days.push(getDate(3));
+        days.push(getDate(4));
+        days.push(getDate(5));
+        days.push(getDate(6));
+        console.log("days array  :: ", days);
+        console.log("habits :: ", habit);
+        return res.render("home", { habit, days, user });
       }
-
-      if (user_details) {
-        Habit.find({})
-          .sort("-createdAt")
-          .then((response) => {
-            let days = [];
-            days.push(getDate(0));
-            days.push(getDate(1));
-            days.push(getDate(2));
-            days.push(getDate(3));
-            days.push(getDate(4));
-            days.push(getDate(5));
-            days.push(getDate(6));
-            console.log("days array  :: ", days);
-            console.log("habits :: ", response);
-
-            return res.render("home", { response, days });
-          })
-          .catch((error) => {
-            console.log(error);
-            return;
-          });
-      }
-    })
-    .catch((error) => {
-      console.log("user error :: ", error);
     });
+  });
 };
 
 function getDate(n) {

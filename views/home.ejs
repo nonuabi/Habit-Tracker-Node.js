@@ -3,23 +3,14 @@
     <title>Habit Tracker Page</title>
   </head>
   <body>
-    <header><p>Habit Tracker</p></header>
+    <%- include('./_header.ejs')%>
 
     <div>
-      <form action="/new-habit" method="POST">
-        <input
-          type="text"
-          name="content"
-          placeholder="New Habit Name.."
-          required
-        />
-        <input type="submit" value="Add Habit" />
-      </form>
-    </div>
-    <div>
-      <%response.forEach((item)=>{%>
+      <p><%=user[0].View%></p>
+      <%habit.forEach((item)=>{%>
       <br />
       <p><%= item.content%></p>
+      <%if(user[0].View === "daily"){%>
       <p>Completed Days :<%= item.days%></p>
       <% let today_date = new Date(); let created_date = item.createdAt; let
       difference_B_W_dates = today_date - created_date; let total_days =
@@ -28,10 +19,9 @@
       <p>7</p>
       <%}else {%>
       <p><%=total_roundOFF_days%></p>
-      <%}%>
-
+      <%}%> <%}else {%>
       <a href="/remove-habit/?id=<%= item._id%>">Remove</a>
-      <%days.forEach((day)=>{ let found = false, status = "";
+      <% days.forEach((day)=>{ let found = false, status = "";
       item.dates.find(function (res){ if(res.date === day.date){ found = true;
       status = res.complete; } }) %>
 
@@ -47,7 +37,7 @@
         <%}%>
       </a>
       <p><%= day.day%></p>
-      <%})%> <%})%>
+      <%})%> <%}%> <%})%>
     </div>
     <footer></footer>
   </body>
