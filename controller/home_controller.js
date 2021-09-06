@@ -87,6 +87,23 @@ function getDate(n) {
   return { date: new_date, day };
 }
 
+module.exports.handleView = function (req, res) {
+  User.find({ Name: "John" }).then((user) => {
+    user[0].View = user[0].View === "daily" ? "Weekly" : "daily";
+    console.log("changes user view :: ", user[0]);
+    user[0]
+      .save()
+      .then((user) => {
+        console.log("change view User :: ", user);
+        res.redirect("back");
+      })
+      .catch((err) => {
+        console.log("error while changing view of the user :: ", err);
+        return;
+      });
+  });
+};
+
 module.exports.newHabit = function (req, res) {
   console.log(req.body);
   const { content } = req.body;

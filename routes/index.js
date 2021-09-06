@@ -7,4 +7,5 @@ router.get("/update-status", homeController.statesChange);
 router.get("/remove-habit", homeController.removeHabit);
 router.get("/home", homeController.home);
 router.get("/login", homeController.login);
+router.post("/handle-view", homeController.handleView);
 module.exports = router;

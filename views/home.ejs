@@ -4,7 +4,16 @@
   </head>
   <body>
     <%- include('./_header.ejs')%>
-
+    <form action="handle-view" method="POST">
+      <%if(user[0].View === "daily"){%>
+      <button disabled type="submit">Daily</button>
+      <button type="submit">Weely</button>
+      <%}else {%>
+      <button type="submit">Daily</button>
+      <button type="submit" disabled>Weely</button>
+      <p>no</p>
+      <%}%>
+    </form>
     <div>
       <p><%=user[0].View%></p>
       <%habit.forEach((item)=>{%>
