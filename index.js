@@ -4,6 +4,9 @@ const db = require("./config/mongoose");
 const port = process.env.PORT || 8080;
 const app = express();
 
+// to use static files
+app.use("/assets", express.static("./assets"));
+
 // set up the view engine
 app.set("view engine", "ejs");
 app.set("views", "./views");
