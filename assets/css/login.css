@@ -1,10 +1,19 @@
 .login {
   text-align: center;
-  background-color: blueviolet;
 }
 .heading_container {
   height: 50vh;
+  text-align: center;
 }
 .form_container {
   height: 50vh;
+}
+.btn_container {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+#btn {
+  width: 50vw;
+  height: 3.5rem;
 }
