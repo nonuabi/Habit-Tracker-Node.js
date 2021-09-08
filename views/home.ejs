@@ -10,6 +10,13 @@
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>Habit Tracker App</title>
     <link rel="stylesheet" href="../assets/css/home.css" />
   </head>
@@ -22,48 +29,79 @@
       <div class="display_container">
         <form action="handle-view" method="POST" class="home_form">
           <%if(user[0].View === "daily"){%>
-          <button disabled type="submit">Daily</button>
-          <button type="submit">Weely</button>
+          <button
+            disabled
+            type="submit"
+            class="btn btn-outline-danger disabled"
+          >
+            Daily
+          </button>
+          <button type="submit" class="btn btn-outline-warning active">
+            Weely
+          </button>
           <%}else {%>
-          <button type="submit">Daily</button>
-          <button type="submit" disabled>Weely</button>
-          <p>no</p>
+          <button type="submit" class="btn btn-outline-danger active">
+            Daily
+          </button>
+          <button
+            type="submit"
+            disabled
+            class="btn btn-outline-warning disabled"
+          >
+            Weely
+          </button>
           <%}%>
         </form>
-        <div>
-          <p><%=user[0].View%></p>
+        <div class="list_container">
           <%habit.forEach((item)=>{%>
-          <br />
-          <p><%= item.content%></p>
-          <%if(user[0].View === "daily"){%>
-          <p>Completed Days :<%= item.days%></p>
-          <% let today_date = new Date(); let created_date = item.createdAt; let
-          difference_B_W_dates = today_date - created_date; let total_days =
-          difference_B_W_dates/ (1000 * 3600 * 24); let total_roundOFF_days =
-          parseInt(total_days, 10); %> <%if(total_roundOFF_days<7) {%>
-          <p>7</p>
-          <%}else {%>
-          <p><%=total_roundOFF_days%></p>
-          <%}%> <%}else {%>
-          <a href="/remove-habit/?id=<%= item._id%>">Remove</a>
-          <% days.forEach((day)=>{ let found = false, status = "";
-          item.dates.find(function (res){ if(res.date === day.date){ found =
-          true; status = res.complete; } }) %>
+          <div class="item_container">
+            <p><%= item.content%></p>
 
-          <p><%= day.date%></p>
-          <hr />
-          <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
-            ><%if(found && status === "yes"){%>
-            <p>yes</p>
-            <%} else if(found && status==="no") {%>
-            <p>no</p>
+            <%if(user[0].View === "daily"){%>
+            <div class="days_container">
+              <p><%= item.days%>/</p>
+              <% let today_date = new Date(); let created_date = item.createdAt;
+              let difference_B_W_dates = today_date - created_date; let
+              total_days = difference_B_W_dates/ (1000 * 3600 * 24); let
+              total_roundOFF_days = parseInt(total_days, 10); %>
+              <%if(total_roundOFF_days<7) {%>
+              <p>7</p>
+              <%}else {%>
+              <p><%=total_roundOFF_days%></p>
+              <%}%>
+            </div>
             <%}else {%>
-            <p>none</p>
+            
+            <div class="dates_container">
+              <% days.forEach((day)=>{ let found = false, status = "";
+              item.dates.find(function (res){ if(res.date === day.date){ found =
+              true; status = res.complete; } }) %>
+                <div class="action_container">
+                <p><%= day.date%></p>
+                <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
+                  ><%if(found && status === "yes"){%>
+                  <i class="far fa-calendar-check"></i>
+                  <%} else if(found && status==="no") {%>
+                  <i class="far fa-calendar-times"></i>
+                  <%}else {%>
+                  <i class="far fa-calendar-minus"></i>
+                  <%}%>
+                  </a>
+                <p><%= day.day%></p>
+                </div>
+                <%})%>
+              </div>
+              
+              <div class="remove_container">
+                <a href="/remove-habit/?id=<%= item._id%>"
+                  ><i class="fas fa-trash"></i
+                ></a>
+              </div>
+            </div>
             <%}%>
-          </a>
-          <p><%= day.day%></p>
-          <%})%> <%}%> <%})%>
-        </div>
+          </div>
+          <%})%>
+        </div>`
       </div>
     </div>
   </body>
