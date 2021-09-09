@@ -1,8 +1,8 @@
 const express = require("express");
-const db = require("./config/mongoose");
+const connectDB = require("./config/mongoose");
 const port = process.env.PORT || 8080;
 const app = express();
-
+connectDB();
 // to use static files
 app.use("/assets", express.static("./assets"));
 
