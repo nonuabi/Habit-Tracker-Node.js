@@ -3,16 +3,18 @@ const Habit = require("../models/habit");
 const User = require("../models/user");
 
 module.exports.welcome = function (req, res) {
+  // rendering the login.ejs file
   return res.render("login");
 };
 
 module.exports.login = function (req, res) {
   User.find({ Name: "John" }).then((response) => {
-    console.log("login response :: ", response.length);
+    // find user
     if (response.length > 0) {
       console.log("user response :: ", response);
       return res.redirect("/home");
     } else {
+      // creating user
       const new_user = new User({ Name: "John", View: "daily" });
       new_user
         .save()
@@ -28,14 +30,12 @@ module.exports.login = function (req, res) {
   });
 };
 module.exports.home = function (req, res) {
-  console.log("Home");
   User.find({ Name: "John" }).then((user) => {
-    console.log("user ", user);
-    console.log("user view ", user[0].View);
     Habit.find({}, (err, habit) => {
       if (err) {
         console.log("Error while finding habits :: ", err);
       } else {
+        // storing upcomming 7 days
         let days = [];
         days.push(getDate(0));
         days.push(getDate(1));
@@ -44,8 +44,7 @@ module.exports.home = function (req, res) {
         days.push(getDate(4));
         days.push(getDate(5));
         days.push(getDate(6));
-        console.log("days array  :: ", days);
-        console.log("habits :: ", habit);
+        // sending data to home.ejs file
         return res.render("home", { habit, days, user });
       }
     });
@@ -87,8 +86,10 @@ function getDate(n) {
   return { date: new_date, day };
 }
 
+// handle view of user
 module.exports.handleView = function (req, res) {
   User.find({ Name: "John" }).then((user) => {
+    // changing user view
     user[0].View = user[0].View === "daily" ? "Weekly" : "daily";
     console.log("changes user view :: ", user[0]);
     user[0]
@@ -104,13 +105,14 @@ module.exports.handleView = function (req, res) {
   });
 };
 
+// add new habit
 module.exports.newHabit = function (req, res) {
   console.log(req.body);
   const { content } = req.body;
 
   Habit.findOne({ content: content }).then((habit) => {
     if (habit) {
-      //---------Update existing habit----------//
+      // updating existing habits
       let dates = habit.dates,
         tzoffset = new Date().getTimezoneOffset() * 60000;
       var today = new Date(Date.now() - tzoffset).toISOString().slice(0, 10);
@@ -145,7 +147,7 @@ module.exports.newHabit = function (req, res) {
         days: 0,
       });
 
-      //---------Save Habit----------//
+      // save habit
       newHabit
         .save()
         .then((habit) => {
@@ -158,6 +160,7 @@ module.exports.newHabit = function (req, res) {
   });
 };
 
+// toggle between status
 module.exports.statesChange = function (req, res) {
   var d = req.query.date;
   var id = req.query.id;
@@ -167,8 +170,8 @@ module.exports.statesChange = function (req, res) {
     } else {
       let dates = habit.dates;
       let found = false;
+      // changing specify date status
       dates.find(function (item) {
-        console.log("found click date :: ", item);
         if (item.date === d) {
           if (item.complete === "yes") {
             item.complete = "no";
@@ -185,6 +188,7 @@ module.exports.statesChange = function (req, res) {
         dates.push({ date: d, complete: "yes" });
         habit.days += 1;
       }
+      // save habit
       habit.dates = dates;
       habit
         .save()
@@ -197,6 +201,7 @@ module.exports.statesChange = function (req, res) {
   });
 };
 
+// removing habit
 module.exports.removeHabit = function (req, res) {
   let id = req.query.id;
   Habit.deleteMany(
