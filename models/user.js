@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// schema for the default user
 const UserSchema = new mongoose.Schema(
   {
     Name: {

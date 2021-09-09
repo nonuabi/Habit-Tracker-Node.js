@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- bootstrap css cdn -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
+    <!-- fontawesome cdn -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -21,12 +23,14 @@
     <link rel="stylesheet" href="../assets/css/home.css" />
   </head>
   <body>
+    <!-- nab bar -->
     <nav class="navbar navbar-dark bg-dark" id="nav_bar">
       <h2 class="navbar_heading">Habit Tracker App</h2>
     </nav>
     <div class="home_container">
       <%- include('./_header.ejs')%>
       <div class="display_container">
+        <!-- week and daily button -->
         <form action="handle-view" method="POST" class="home_form">
           <%if(user[0].View === "daily"){%>
           <button
@@ -56,7 +60,7 @@
           <%habit.forEach((item)=>{%>
           <div class="item_container">
             <p><%= item.content%></p>
-
+            <!-- toggle b/w daily list and the weekly list -->
             <%if(user[0].View === "daily"){%>
             <div class="days_container">
               <p><%= item.days%>/</p>
@@ -73,11 +77,13 @@
             <%}else {%>
             
             <div class="dates_container">
+              <!-- display complete week  -->
               <% days.forEach((day)=>{ let found = false, status = "";
               item.dates.find(function (res){ if(res.date === day.date){ found =
               true; status = res.complete; } }) %>
                 <div class="action_container">
                 <p><%= day.date%></p>
+                <!-- switch b/w done, none, no -->
                 <a href="/update-status/?id=<%= item._id%>&date=<%=day.date%>"
                   ><%if(found && status === "yes"){%>
                   <i class="far fa-calendar-check"></i>
@@ -91,7 +97,7 @@
                 </div>
                 <%})%>
               </div>
-              
+              <!-- delete habit container -->
               <div class="remove_container">
                 <a href="/remove-habit/?id=<%= item._id%>"
                   ><i class="fas fa-trash"></i

@@ -1,7 +1,9 @@
 const express = require("express");
 const connectDB = require("./config/mongoose");
+// port no
 const port = process.env.PORT || 8080;
 const app = express();
+//calling DB
 connectDB();
 // to use static files
 app.use("/assets", express.static("./assets"));
@@ -9,7 +11,6 @@ app.use("/assets", express.static("./assets"));
 // set up the view engine
 app.set("view engine", "ejs");
 app.set("views", "./views");
-
 app.use(express.urlencoded({ extended: true }));
 
 //use express router

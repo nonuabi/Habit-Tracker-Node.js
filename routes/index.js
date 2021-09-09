@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const homeController = require("../controller/home_controller");
+// routers
 router.get("/", homeController.welcome);
 router.post("/new-habit", homeController.newHabit);
 router.get("/update-status", homeController.statesChange);

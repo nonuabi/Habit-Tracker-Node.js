@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// schema for new habits
 const HabitSchema = new mongoose.Schema(
   {
     content: {
