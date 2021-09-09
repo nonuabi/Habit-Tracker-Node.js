@@ -1,4 +1,3 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const db = require("./config/mongoose");
 const port = process.env.PORT || 8080;
