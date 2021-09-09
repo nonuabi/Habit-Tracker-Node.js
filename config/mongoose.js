@@ -13,7 +13,7 @@
 // module.exports = db;
 const { MongoClient } = require("mongodb");
 const uri =
-  "mongodb+srv://abhishek:<password>@cluster0.pacpv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://abhishek:abhishektest@cluster0.pacpv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
