@@ -14,6 +14,17 @@
 
 ### Previews
   * Login
-    
+    ![](img/login.jpg)
   * Home (Daily View)
+    ![](img/dailyview.jpg)
   * Home (Weekly View)
+    ![](img/weeklyview.jpg)
+    
+### Directory Structure
+  `/assets/css` - all css files <br/>
+  `/config` - mongoDB config <br/>
+  `/controller` - all the controllers <br/>
+  `/models` - all the schems <br/>
+  `/router` - all the routers <br/>
+  `/views` - all the ejs code
+  
